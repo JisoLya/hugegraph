@@ -105,7 +105,9 @@ public class ServerInfoManager {
     public synchronized void initServerInfo(GlobalMasterInfo nodeInfo) {
         E.checkArgument(nodeInfo != null, "The global node info can't be null");
 
-        Id serverId = nodeInfo.nodeId();
+        this.globalNodeInfo = nodeInfo;
+
+        Id serverId = this.selfNodeId();
         HugeServerInfo existed = this.serverInfo(serverId);
         if (existed != null && existed.alive()) {
             final long now = DateUtil.now().getTime();
@@ -137,8 +139,6 @@ public class ServerInfoManager {
                 }
             } while (page != null);
         }
-
-        this.globalNodeInfo = nodeInfo;
 
         // TODO: save ServerInfo to AuthServer
         this.saveServerInfo(this.selfNodeId(), this.selfNodeRole());
