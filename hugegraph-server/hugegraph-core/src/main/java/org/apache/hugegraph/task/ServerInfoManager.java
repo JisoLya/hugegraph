@@ -29,6 +29,7 @@ import org.apache.hugegraph.HugeException;
 import org.apache.hugegraph.HugeGraph;
 import org.apache.hugegraph.HugeGraphParams;
 import org.apache.hugegraph.backend.id.Id;
+import org.apache.hugegraph.backend.id.IdGenerator;
 import org.apache.hugegraph.backend.page.PageInfo;
 import org.apache.hugegraph.backend.query.Condition;
 import org.apache.hugegraph.backend.query.ConditionQuery;
@@ -162,7 +163,9 @@ public class ServerInfoManager {
         if (this.globalNodeInfo == null) {
             return null;
         }
-        return this.globalNodeInfo.nodeId();
+        // Scope server id to graph to avoid cross-graph collision
+        return IdGenerator.of(this.graph.spaceGraphName() + "/" +
+                             this.globalNodeInfo.nodeId().asString());
     }
 
     public NodeRole selfNodeRole() {
