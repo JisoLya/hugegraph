@@ -171,7 +171,7 @@ public class PartitionAPI {
             }
             cfIterator.close();
         });
-        return ok("ok", null);
+        return ok("ok", "");
     }
 
     /**
@@ -186,7 +186,7 @@ public class PartitionAPI {
         storeEngine.getPartitionEngine(id).getPartitions().forEach((graph, partition) -> {
             handler.cleanPartition(graph, id);
         });
-        return ok("ok", null);
+        return ok("ok", "");
     }
 
     @GetMapping(value = "/arthasstart", produces = "application/json")
